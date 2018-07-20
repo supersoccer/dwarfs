@@ -1,0 +1,15 @@
+{
+  "name": "@supersoccer/dwarfs",
+  "version": "1.0.0",
+  "description": "MySQL DB driver",
+  "main": "index.js",
+  "repository": "https://github.com/supersoccer/node-dwarfs",
+  "author": "hkyo89 <hkyo89@yahoo.co.jp>",
+  "license": "MIT",
+  "dependencies": {
+    "@supersoccer/path": "^1.0.1",
+    "config": "^1.30.0",
+    "lodash": "^4.17.10",
+    "mysql": "^2.16.0"
+  }
+}
