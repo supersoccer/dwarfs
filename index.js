@@ -1,28 +1,28 @@
-const $ = require('config')
+const Misty = require('@supersoccer/misty')
+const $ = Misty.Config
 const _ = require('lodash')
-const { basepath } = require('@supersoccer/path')
 const mysql = require('mysql')
-const Cache = require(basepath.modules('cache'))
+const Cache = Misty.Yggdrasil
 
 class Dwarfs {
   constructor () {
-    this.pool = {
-      Misty: mysql.createPool($.db.misty)
-    }
-
-    this.cache = {
-      Misty: new Cache($.cache.app.misty)
-    }
+    this.pool = {}
+    this.pool[$.app.name] = mysql.createPool($.dwarfs.misty)
+    this.cache = {}
+    this.cache[$.app.name] = new Cache($.app.name)
   }
 
   async get (opt) {
-    let app = opt.app
+    let app = opt.app || $.app.name
     let key = opt.key
     let query = opt.query
 
     if (_.isUndefined(key)) {}
 
     return await new Promise((resolve, reject) => {
+      if (typeof this.cache[app] === 'undefined') {
+        throw new Error(`[dwarfs] cache driver not found: ${app}`)
+      }
       this.cache[app].get(key).then(data => {
         if (!_.isEmpty(data)) {
           resolve(data)
@@ -79,7 +79,7 @@ class Dwarfs {
         const tableName = queries[queriesLowerCase.indexOf('from') + 1]
 
         this.get({
-          app: 'Misty',
+          app: appName,
           key: `struct:${tableName}`,
           query: {
             sql: `SHOW FULL COLUMNS FROM ${tableName}`
