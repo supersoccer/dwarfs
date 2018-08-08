@@ -1,19 +1,18 @@
-const Misty = require('@supersoccer/misty')
-const $ = Misty.Config
-const _ = require('lodash')
+const { Config, Yggdrasil, Utils } = require('@supersoccer/misty')
+const _ = Utils.Lodash
 const mysql = require('mysql')
-const Cache = Misty.Yggdrasil
 
 class Dwarfs {
   constructor () {
     this.pool = {}
-    this.pool[$.app.name] = mysql.createPool($.dwarfs.misty)
+    this.pool['misty'] = mysql.createPool(Config.Dwarfs.misty)
     this.cache = {}
-    this.cache[$.app.name] = new Cache($.app.name)
+    this.cache['misty'] = new Yggdrasil('misty')
   }
 
   async get (opt) {
-    let app = opt.app || $.app.name
+    // let app = opt.app || 'misty'
+    let app = 'misty'
     let key = opt.key
     let query = opt.query
 
