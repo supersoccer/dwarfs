@@ -1,4 +1,4 @@
-const { Config, Yggdrasil, Utils } = require('@supersoccer/misty')
+const { Config, Yggdrasil, Utils } = require('@supersoccer/misty-loader')
 const _ = Utils.Lodash
 const mysql = require('mysql')
 
